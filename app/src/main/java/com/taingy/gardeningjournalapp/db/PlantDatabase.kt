@@ -15,13 +15,14 @@ abstract class PlantDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: PlantDatabase? = null
-        private val LOCK = Any()
+        private var INSTANCE: PlantDatabase? = null
         private const val DATABASE_NAME = "plant-database"
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also {
-                instance = it
+        fun invoke(context: Context): PlantDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = buildDatabase(context)
+                INSTANCE = instance
+                instance
             }
         }
 

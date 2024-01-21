@@ -1,5 +1,6 @@
 package com.taingy.gardeningjournalapp.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,18 +11,18 @@ import androidx.room.Update
 interface PlantDao {
 
     @Query("SELECT * FROM plant")
-    suspend fun getAll(): List<Plant>
+    fun getAll(): LiveData<List<Plant>>
 
     @Query("SELECT * FROM plant WHERE id IN (:id)")
-    suspend fun findById(id: Int): Plant
+    fun findById(id: Int): LiveData<Plant>
 
     @Insert
-    suspend fun insert(plant: Plant)
+    fun insert(plant: Plant)
 
     @Update
-    suspend fun update(plant: Plant)
+    fun update(plant: Plant)
 
     @Delete
-    suspend fun delete(plant: Plant)
+    fun delete(plant: Plant)
 
 }
